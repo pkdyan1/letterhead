@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letterhead - Pejabat Kesihatan Daerah Yan</title>
+    <style>
+        /* Gaya umum untuk paparan skrin */
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Gaya butang cetak */
+        .print-btn {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+
+        .print-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Gaya helaian kertas A4 */
+        .page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm 20mm 20mm 20mm; /* Atas 25mm, Kanan/Bawah/Kiri 20mm */
+            box-sizing: border-box;
+            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        /* Bahagian Header (Letterhead) */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .logo-container {
+            flex-shrink: 0;
+            margin-right: 15px;
+        }
+
+        .logo {
+            width: 85px;
+            height: auto;
+        }
+
+        .header-text {
+            flex-grow: 1;
+            color: #003399; /* Warna biru gelap sepadan imej */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .address-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .address-block h1 {
+            font-size: 14pt;
+            font-weight: bold;
+            margin: 0 0 2px 0;
+            text-transform: uppercase;
+        }
+
+        .address-block p {
+            font-size: 11pt;
+            font-weight: bold;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .contact-block {
+            text-align: right;
+            font-size: 10pt;
+            line-height: 1.4;
+            font-weight: normal;
+        }
+
+        .contact-block p {
+            margin: 0;
+        }
+
+        /* Garisan pemisah biru */
+        .divider {
+            border: 0;
+            border-bottom: 2px solid #003399;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Kawasan menaip surat */
+        .content {
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000;
+            outline: none; /* Buang garisan fokus bila menaip */
+            min-height: 500px;
+        }
+
+        .content p {
+            margin-top: 0;
+            margin-bottom: 1em;
+        }
+
+        /* Susunan khas untuk rujukan dan tarikh */
+        .ref-date {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        /* Panduan Pengguna */
+        .instructions {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 210mm;
+            box-sizing: border-box;
+            font-size: 14px;
+            border: 1px solid #bae6fd;
+        }
+
+        /* Gaya cetakan (Print Media Query) */
+        @media print {
+            /* Buang setting browser (header/footer tarikh dan URL) */
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                page-break-after: always;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Panduan Pengguna (Tidak kelihatan dalam cetakan) -->
+    <div class="instructions no-print">
+        <strong>💡 Cara Penggunaan:</strong>
+        <ul style="margin-top: 5px; margin-bottom: 0; padding-left: 20px;">
+            <li>Klik pada mana-mana teks di bawah (seperti <i>[TAJUK SURAT]</i>) untuk mula mengisi.</li>
+            <li>Untuk menyimpan surat sebagai fail PDF, klik butang biru di bawah dan tukar pilihan <i>Destination/Printer</i> kepada <b>"Save as PDF"</b>.</li>
+        </ul>
+    </div>
+
+    <!-- Butang Cetak (Tidak akan kelihatan dalam cetakan) -->
+    <button class="print-btn no-print" onclick="window.print()">
+        🖨️ Cetak / Simpan sebagai PDF
+    </button>
+
+    <!-- Helaian Kertas A4 -->
+    <div class="page">
+        
+        <!-- Bahagian Letterhead -->
+        <div class="header">
+            <div class="logo-container">
+                <!-- Menggunakan logo Jata Negara dari sumber yang sah (Wikipedia Commons) -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Coat_of_arms_of_Malaysia.svg" alt="Jata Negara" class="logo">
+            </div>
+            <div class="header-text">
+                <div class="address-block">
+                    <h1>PEJABAT KESIHATAN DAERAH YAN</h1>
+                    <p>08800 GUAR CHEMPEDAK</p>
+                    <p>KEDAH DARUL AMAN</p>
+                </div>
+                <div class="contact-block">
+                    <p>Tel : 04-4684435/4683155</p>
+                    <p>E-mail : pkdyan@moh.gov.my</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Garisan Biru -->
+        <div class="divider"></div>
+
+        <!-- Kawasan Kandungan Surat (Boleh diedit) -->
+        <div class="content" contenteditable="true" spellcheck="false">
+            
+            <div class="ref-date">
+                <div>
+                    Ruj. Kami: <br>
+                    Ruj. Tuan: 
+                </div>
+                <div>
+                    Tarikh: 
+                </div>
+            </div>
+
+            <p>
+                <strong>[Nama Penerima / Jabatan]</strong><br>
+                [Alamat Baris 1],<br>
+                [Alamat Baris 2],<br>
+                [Poskod, Bandar],<br>
+                [Negeri].
+            </p>
+
+            <br>
+            <p>Tuan/Puan,</p>
+
+            <p><strong>[TAJUK / PERKARA SURAT ANDA DI SINI]</strong></p>
+
+            <p>[Klik di sini untuk mula menaip perenggan pertama...]</p>
+            <br>
+            <p>[Perenggan kedua (jika ada)...]</p>
+            
+            <br><br>
+            <p>Sekian, terima kasih.</p>
+            <br>
+            
+            <p><strong>"MALAYSIA MADANI"</strong></p>
+            <p><strong>"BERKHIDMAT UNTUK NEGARA"</strong></p>
+            
+            <br><br>
+            <p>Saya yang menjalankan amanah,</p>
+            <br><br><br>
+            <p>
+                <strong>[NAMA PEGAWAI]</strong><br>
+                [Jawatan Pegawai]<br>
+                Pejabat Kesihatan Daerah Yan
+            </p>
+            
+        </div>
+    </div>
+
+</body>
+</html>
