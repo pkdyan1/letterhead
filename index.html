@@ -39,48 +39,47 @@
             background: white;
             width: 210mm;
             min-height: 297mm;
-            padding: 25mm 20mm 20mm 20mm; /* Atas 25mm, Kanan/Bawah/Kiri 20mm */
             box-sizing: border-box;
             box-shadow: 0 0 15px rgba(0,0,0,0.15);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 0; /* Margin dibuang dari bekas utama untuk kesan 'full-bleed' */
         }
 
-        /* Bahagian Header (Letterhead) */
+        /* Bahagian Header (Letterhead) - Susunan tepat seperti imej asal */
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 5px;
+            width: 100%;
+            padding: 12mm 20mm 6mm 20mm; /* Jarak kemas dari atas kertas */
+            box-sizing: border-box;
         }
 
-        .logo-container {
-            flex-shrink: 0;
-            margin-right: 15px;
+        /* Bahagian Kiri & Tengah: Kumpulan Logo dan Alamat */
+        .header-left {
+            display: flex;
+            align-items: center;
         }
 
         .logo {
             width: 85px;
             height: auto;
-        }
-
-        .header-text {
-            flex-grow: 1;
-            color: #003399; /* Warna biru gelap sepadan imej */
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            margin-right: 15px;
         }
 
         .address-block {
-            display: flex;
-            flex-direction: column;
+            text-align: left;
+            color: #003399; /* Warna biru rasmi */
         }
 
         .address-block h1 {
             font-size: 14pt;
             font-weight: bold;
-            margin: 0 0 2px 0;
+            margin: 0 0 3px 0;
             text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .address-block p {
@@ -90,32 +89,43 @@
             text-transform: uppercase;
         }
 
+        /* Bahagian Kanan: Info Hubungan */
         .contact-block {
-            text-align: right;
             font-size: 10pt;
-            line-height: 1.4;
-            font-weight: normal;
+            line-height: 1.5;
+            font-weight: bold;
+            color: #003399;
+            white-space: nowrap;
         }
 
-        .contact-block p {
-            margin: 0;
+        .contact-block table {
+            border-collapse: collapse;
         }
 
-        /* Garisan pemisah biru */
+        .contact-block td {
+            padding: 0 5px 2px 0;
+            vertical-align: top;
+        }
+
+        /* Garisan pemisah biru memanjang penuh dari kiri ke kanan */
         .divider {
             border: 0;
-            border-bottom: 2px solid #003399;
-            margin-top: 10px;
-            margin-bottom: 30px;
+            border-bottom: 3.5px solid #003399;
+            width: 100%;
+            margin-top: 0;
+            margin-bottom: 25px;
         }
 
-        /* Kawasan menaip surat */
+        /* Kawasan menaip surat (Mengekalkan margin standard 20mm) */
         .content {
             font-size: 12pt;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #000;
-            outline: none; /* Buang garisan fokus bila menaip */
+            outline: none; /* Buang garisan biru ketika klik untuk taip */
             min-height: 500px;
+            padding: 0 20mm 20mm 20mm; /* Menjamin kandungan surat ada margin kiri/kanan/bawah */
+            box-sizing: border-box;
+            flex-grow: 1;
         }
 
         .content p {
@@ -146,10 +156,9 @@
 
         /* Gaya cetakan (Print Media Query) */
         @media print {
-            /* Buang setting browser (header/footer tarikh dan URL) */
             @page {
                 size: A4;
-                margin: 0;
+                margin: 0; /* Memastikan tiada margin tambahan dari browser */
             }
             body {
                 background-color: white;
@@ -159,8 +168,8 @@
             .page {
                 box-shadow: none;
                 margin: 0;
-                width: 100%;
-                height: 100%;
+                width: 210mm;
+                height: 297mm;
                 page-break-after: always;
             }
             .no-print {
@@ -175,7 +184,7 @@
     <div class="instructions no-print">
         <strong>💡 Cara Penggunaan:</strong>
         <ul style="margin-top: 5px; margin-bottom: 0; padding-left: 20px;">
-            <li>Klik pada mana-mana teks di bawah (seperti <i>[TAJUK SURAT]</i>) untuk mula mengisi.</li>
+            <li>Klik pada mana-mana teks di bawah untuk mula menulis surat anda.</li>
             <li>Untuk menyimpan surat sebagai fail PDF, klik butang biru di bawah dan tukar pilihan <i>Destination/Printer</i> kepada <b>"Save as PDF"</b>.</li>
         </ul>
     </div>
@@ -188,26 +197,36 @@
     <!-- Helaian Kertas A4 -->
     <div class="page">
         
-        <!-- Bahagian Letterhead -->
+        <!-- Bahagian Letterhead (Susunan Sejajar Imej Asal) -->
         <div class="header">
-            <div class="logo-container">
-                <!-- Menggunakan logo Jata Negara dari sumber yang sah (Wikipedia Commons) -->
+            
+            <!-- Kiri: Logo dan Alamat -->
+            <div class="header-left">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Coat_of_arms_of_Malaysia.svg" alt="Jata Negara" class="logo">
-            </div>
-            <div class="header-text">
                 <div class="address-block">
                     <h1>PEJABAT KESIHATAN DAERAH YAN</h1>
                     <p>08800 GUAR CHEMPEDAK</p>
                     <p>KEDAH DARUL AMAN</p>
                 </div>
-                <div class="contact-block">
-                    <p>Tel : 04-4684435/4683155</p>
-                    <p>E-mail : pkdyan@moh.gov.my</p>
-                </div>
             </div>
+            
+            <!-- Kanan: Info Hubungan (Disusun menggunakan jadual) -->
+            <div class="contact-block">
+                <table>
+                    <tr>
+                        <td>Tel</td>
+                        <td>: 04-4684435/4683155</td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td>: pkdyan@moh.gov.my</td>
+                    </tr>
+                </table>
+            </div>
+            
         </div>
         
-        <!-- Garisan Biru -->
+        <!-- Garisan Biru Full Width -->
         <div class="divider"></div>
 
         <!-- Kawasan Kandungan Surat (Boleh diedit) -->
