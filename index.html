@@ -1,282 +1,248 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ms">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Letterhead - Pejabat Kesihatan Daerah Yan</title>
-    <style>
-        /* Gaya umum untuk paparan skrin */
-        body {
-            background-color: #f3f4f6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Templat Surat - Pejabat Kesihatan Daerah Yan</title>
+  <style>
+    :root {
+      --paper-width: 210mm;
+      --paper-height: 297mm;
+      --body-left: 25.4mm;
+      --body-right: 20mm;
+      --body-top: 46mm;
+      --body-bottom: 32mm;
+    }
 
-        /* Gaya butang cetak */
-        .print-btn {
-            background-color: #2563eb;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background-color 0.3s;
-        }
+    * { box-sizing: border-box; }
 
-        .print-btn:hover {
-            background-color: #1d4ed8;
-        }
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #eef1f5;
+      color: #000;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-        /* Gaya helaian kertas A4 */
-        .page {
-            background: white;
-            width: 210mm;
-            min-height: 297mm;
-            box-sizing: border-box;
-            box-shadow: 0 0 15px rgba(0,0,0,0.15);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            padding: 0; /* Margin dibuang dari bekas utama untuk kesan 'full-bleed' */
-        }
+    .toolbar {
+      width: min(var(--paper-width), calc(100vw - 40px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 14px;
+    }
 
-        /* Bahagian Header (Letterhead) - Susunan tepat seperti imej asal */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 12mm 20mm 6mm 20mm; /* Jarak kemas dari atas kertas */
-            box-sizing: border-box;
-        }
+    .hint {
+      margin: 0;
+      color: #334155;
+      font-size: 14px;
+      line-height: 1.4;
+    }
 
-        /* Bahagian Kiri & Tengah: Kumpulan Logo dan Alamat */
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
+    .print-button {
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 6px;
+      padding: 10px 16px;
+      background: #1269a7;
+      color: #fff;
+      font: 600 14px/1 Arial, Helvetica, sans-serif;
+      cursor: pointer;
+    }
 
-        .logo {
-            width: 85px;
-            height: auto;
-            margin-right: 15px;
-        }
+    .print-button:hover { background: #0b5488; }
 
-        .address-block {
-            text-align: left;
-            color: #003399; /* Warna biru rasmi */
-        }
+    .page {
+      position: relative;
+      width: var(--paper-width);
+      min-height: var(--paper-height);
+      margin: 0 auto;
+      overflow: visible;
+      background: #fff;
+      box-shadow: 0 3px 18px rgba(15, 23, 42, .18);
+      isolation: isolate;
+    }
 
-        .address-block h1 {
-            font-size: 14pt;
-            font-weight: bold;
-            margin: 0 0 3px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+    /* Imej ini ialah render terus daripada letterhead.pdf; ia mengekalkan logo,
+       warna, teks hubungan, dan garisan asal tanpa bergantung pada aset web. */
+    .letterhead {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: var(--paper-height);
+      object-fit: fill;
+      user-select: none;
+      pointer-events: none;
+    }
 
-        .address-block p {
-            font-size: 11pt;
-            font-weight: bold;
-            margin: 0;
-            text-transform: uppercase;
-        }
+    .letter-content {
+      position: relative;
+      z-index: 1;
+      min-height: var(--paper-height);
+      padding: var(--body-top) var(--body-right) var(--body-bottom) var(--body-left);
+      font: 11pt/1.15 Arial, Helvetica, sans-serif;
+      outline: none;
+    }
 
-        /* Bahagian Kanan: Info Hubungan */
-        .contact-block {
-            font-size: 10pt;
-            line-height: 1.5;
-            font-weight: bold;
-            color: #003399;
-            white-space: nowrap;
-        }
+    .letter-content:focus { outline: 1px dashed rgba(18, 105, 167, .5); outline-offset: -2px; }
 
-        .contact-block table {
-            border-collapse: collapse;
-        }
+    .ref-block {
+      width: 84mm;
+      margin: 0 0 8.5mm auto;
+      line-height: 1.15;
+    }
 
-        .contact-block td {
-            padding: 0 5px 2px 0;
-            vertical-align: top;
-        }
+    .ref-row {
+      display: grid;
+      grid-template-columns: 29mm 4mm minmax(0, 1fr);
+      min-height: 5.3mm;
+    }
 
-        /* Garisan pemisah biru memanjang penuh dari kiri ke kanan */
-        .divider {
-            border: 0;
-            border-bottom: 3.5px solid #003399;
-            width: 100%;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
+    .recipient {
+      margin: 0 0 9mm;
+      line-height: 1.15;
+    }
 
-        /* Kawasan menaip surat (Mengekalkan margin standard 20mm) */
-        .content {
-            font-size: 12pt;
-            line-height: 1.6;
-            color: #000;
-            outline: none; /* Buang garisan biru ketika klik untuk taip */
-            min-height: 500px;
-            padding: 0 20mm 20mm 20mm; /* Menjamin kandungan surat ada margin kiri/kanan/bawah */
-            box-sizing: border-box;
-            flex-grow: 1;
-        }
+    .salutation { margin: 0 0 8.5mm; }
 
-        .content p {
-            margin-top: 0;
-            margin-bottom: 1em;
-        }
+    .subject-block { margin: 0 0 8.5mm; }
 
-        /* Susunan khas untuk rujukan dan tarikh */
-        .ref-date {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
+    .subject {
+      margin: 0 0 1.4mm;
+      font-weight: 700;
+    }
 
-        /* Panduan Pengguna */
-        .instructions {
-            background-color: #e0f2fe;
-            color: #0369a1;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 210mm;
-            box-sizing: border-box;
-            font-size: 14px;
-            border: 1px solid #bae6fd;
-        }
+    .subject-detail {
+      display: grid;
+      grid-template-columns: 27mm 4mm minmax(0, 1fr);
+      margin: 0;
+      font-weight: 700;
+      line-height: 1.15;
+    }
 
-        /* Gaya cetakan (Print Media Query) */
-        @media print {
-            @page {
-                size: A4;
-                margin: 0; /* Memastikan tiada margin tambahan dari browser */
-            }
-            body {
-                background-color: white;
-                margin: 0;
-                padding: 0;
-            }
-            .page {
-                box-shadow: none;
-                margin: 0;
-                width: 210mm;
-                height: 297mm;
-                page-break-after: always;
-            }
-            .no-print {
-                display: none !important;
-            }
-        }
-    </style>
+    .body-copy { text-align: justify; }
+
+    .body-copy p,
+    .body-paragraph { margin: 0 0 5.2mm; text-align: justify; }
+
+    .closing { margin: 0 0 5.2mm; }
+
+    .motto {
+      margin: 0;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .signature-intro { margin: 8.5mm 0 0; }
+
+    .signature {
+      margin: 22mm 0 0;
+      line-height: 1.15;
+    }
+
+    .signature-name { margin: 0; font-weight: 700; }
+
+    .signature p { margin: 0; }
+
+    /* Halaman pertama menggunakan letterhead penuh. Halaman sambungan diberi
+       ruang atas/bawah kerana tiada letterhead. */
+    @page {
+      size: A4;
+      margin: 25.4mm 0 32mm;
+    }
+
+    @page :first { margin: 0 0 32mm; }
+
+    @media print {
+      html, body { width: var(--paper-width); height: auto; }
+
+      body {
+        padding: 0;
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .no-print { display: none !important; }
+
+      .page {
+        width: var(--paper-width);
+        min-height: 0;
+        margin: 0;
+        overflow: visible;
+        box-shadow: none;
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      .letter-content { min-height: 0; }
+
+      .letter-content:focus { outline: none; }
+    }
+
+    @media screen and (max-width: 760px) {
+      body { padding: 10px; }
+      .toolbar { width: 100%; align-items: flex-start; flex-direction: column; }
+      .page { transform-origin: top left; }
+    }
+  </style>
 </head>
 <body>
+  <div class="toolbar no-print">
+    <p class="hint">Klik kandungan surat untuk mengemas kini teks. Untuk cetakan, pilih <strong>A4</strong> dan pastikan skala ialah <strong>100%</strong>.</p>
+    <button class="print-button" type="button" onclick="window.print()">Cetak / Simpan PDF</button>
+  </div>
 
-    <!-- Panduan Pengguna (Tidak kelihatan dalam cetakan) -->
-    <div class="instructions no-print">
-        <strong>💡 Cara Penggunaan:</strong>
-        <ul style="margin-top: 5px; margin-bottom: 0; padding-left: 20px;">
-            <li>Klik pada mana-mana teks di bawah untuk mula menulis surat anda.</li>
-            <li>Untuk menyimpan surat sebagai fail PDF, klik butang biru di bawah dan tukar pilihan <i>Destination/Printer</i> kepada <b>"Save as PDF"</b>.</li>
-        </ul>
-    </div>
+  <main id="letter-document" aria-label="Templat surat Pejabat Kesihatan Daerah Yan">
+    <section class="page first-page">
+      <img class="letterhead" src="letterhead-pkdyan.png" alt="">
 
-    <!-- Butang Cetak (Tidak akan kelihatan dalam cetakan) -->
-    <button class="print-btn no-print" onclick="window.print()">
-        🖨️ Cetak / Simpan sebagai PDF
-    </button>
+    <article class="letter-content" contenteditable="true" spellcheck="false" aria-label="Kandungan surat boleh disunting">
+      <div class="ref-block">
+        <div class="ref-row"><span>Ruj. Kami</span><span>:</span><span>[RUJUKAN KAMI]</span></div>
+        <div class="ref-row"><span>Tarikh</span><span>:</span><span>[TARIKH]</span></div>
+      </div>
 
-    <!-- Helaian Kertas A4 -->
-    <div class="page">
-        
-        <!-- Bahagian Letterhead (Susunan Sejajar Imej Asal) -->
-        <div class="header">
-            
-            <!-- Kiri: Logo dan Alamat -->
-            <div class="header-left">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Coat_of_arms_of_Malaysia.svg" alt="Jata Negara" class="logo">
-                <div class="address-block">
-                    <h1>PEJABAT KESIHATAN DAERAH YAN</h1>
-                    <p>08800 GUAR CHEMPEDAK</p>
-                    <p>KEDAH DARUL AMAN</p>
-                </div>
-            </div>
-            
-            <!-- Kanan: Info Hubungan (Disusun menggunakan jadual) -->
-            <div class="contact-block">
-                <table>
-                    <tr>
-                        <td>Tel</td>
-                        <td>: 04-4684435/4683155</td>
-                    </tr>
-                    <tr>
-                        <td>E-mail</td>
-                        <td>: pkdyan@moh.gov.my</td>
-                    </tr>
-                </table>
-            </div>
-            
-        </div>
-        
-        <!-- Garisan Biru Full Width -->
-        <div class="divider"></div>
+      <div class="recipient">
+        [Nama penerima / jawatan]<br>
+        [Jabatan / organisasi]<br>
+        [Alamat baris 1]<br>
+        [Poskod, bandar]<br>
+        [Negeri]
+      </div>
 
-        <!-- Kawasan Kandungan Surat (Boleh diedit) -->
-        <div class="content" contenteditable="true" spellcheck="false">
-            
-            <div class="ref-date">
-                <div>
-                    Ruj. Kami: <br>
-                    Ruj. Tuan: 
-                </div>
-                <div>
-                    Tarikh: 
-                </div>
-            </div>
+      <p class="salutation">Tuan/Puan,</p>
 
-            <p>
-                <strong>[Nama Penerima / Jabatan]</strong><br>
-                [Alamat Baris 1],<br>
-                [Alamat Baris 2],<br>
-                [Poskod, Bandar],<br>
-                [Negeri].
-            </p>
+      <section class="subject-block">
+        <p class="subject">[TAJUK / PERKARA SURAT]</p>
+        <p class="subject-detail"><span>NAMA</span><span>:</span><span>[NAMA PEGAWAI]</span></p>
+        <p class="subject-detail"><span>JAWATAN</span><span>:</span><span>[JAWATAN PEGAWAI]</span></p>
+      </section>
 
-            <br>
-            <p>Tuan/Puan,</p>
+      <section class="body-copy">
+        <p>Dengan hormatnya perkara di atas adalah dirujuk.</p>
+        <p>2.&nbsp;&nbsp;&nbsp;&nbsp;[Klik di sini untuk menaip perenggan surat. Gunakan bahasa dan kandungan yang bersesuaian.]</p>
+        <p>3.&nbsp;&nbsp;&nbsp;&nbsp;[Tambahkan perenggan seterusnya jika perlu.]</p>
+      </section>
 
-            <p><strong>[TAJUK / PERKARA SURAT ANDA DI SINI]</strong></p>
+      <p class="closing">Sekian, terima kasih.</p>
+      <p class="motto">“MALAYSIA MADANI”</p>
+      <p class="motto">“BERKHIDMAT UNTUK NEGARA”</p>
 
-            <p>[Klik di sini untuk mula menaip perenggan pertama...]</p>
-            <br>
-            <p>[Perenggan kedua (jika ada)...]</p>
-            
-            <br><br>
-            <p>Sekian, terima kasih.</p>
-            <br>
-            
-            <p><strong>"MALAYSIA MADANI"</strong></p>
-            <p><strong>"BERKHIDMAT UNTUK NEGARA"</strong></p>
-            
-            <br><br>
-            <p>Saya yang menjalankan amanah,</p>
-            <br><br><br>
-            <p>
-                <strong>[NAMA PEGAWAI]</strong><br>
-                [Jawatan Pegawai]<br>
-                Pejabat Kesihatan Daerah Yan
-            </p>
-            
-        </div>
-    </div>
+      <p class="signature-intro">Saya yang menjalankan amanah,</p>
 
+      <div class="signature">
+        <p class="signature-name">( [NAMA PEGAWAI] )</p>
+        <p>[No. pendaftaran, jika berkenaan]</p>
+        <p>[Jawatan pegawai]</p>
+        <p>Pegawai Kesihatan Daerah</p>
+        <p>Pejabat Kesihatan Daerah Yan</p>
+      </div>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
